@@ -12,6 +12,8 @@ namespace Preparation.Models
 
         [ForeignKey(nameof(Id_Parent))]
         public int? Id_Parent { get; set; }
+
+        [NotMapped]
         public virtual Parents? Parents { get; set; }    
 
     }

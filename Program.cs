@@ -1,18 +1,33 @@
 using Microsoft.EntityFrameworkCore;
+using Preparation.IRepos;
+using Preparation.IService;
 using Preparation.Models;
+using Preparation.Repos;
+using Preparation.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var app = builder.Build();
+
+
+builder.Services.AddScoped<IReposParents, ReposParents>();
+builder.Services.AddScoped<IServiceParents, ServiceParents>();
+builder.Services.AddScoped<IReposPersonnes, ReposPersonnes>();
+builder.Services.AddScoped<IServicePersonnes, ServicePersonnes>();
+
 
 var connectionString = builder.Configuration.GetConnectionString("ConnectionStrings");
-//builder.Services.AddDbContext<PreparationContext>(x => x.UseSqlServer(connectionString));
+builder.Services.AddDbContext<PreparationContext>(x => x.UseSqlServer(connectionString));
 
 
-//builder.Services.AddScoped<DbContext, PreparationContext>();
+
+
+
+var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

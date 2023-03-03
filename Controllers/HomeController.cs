@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Preparation.IRepos;
+using Preparation.IService;
 using Preparation.Models;
 using System.Diagnostics;
 
@@ -7,16 +9,14 @@ namespace Preparation.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-         PreparationContext _pc;
-        public HomeController(ILogger<HomeController> logger, PreparationContext pc)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _pc = pc;
         }
+
 
         public IActionResult Index()
         {
-            var list = _pc.Parents.ToList();
             return View();
         }
 
