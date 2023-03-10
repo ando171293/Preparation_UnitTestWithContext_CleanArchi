@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +22,8 @@ namespace Preparation.Controllers
         // GET: Parents
         public IActionResult Index()
         {
-              return View(_isp.FindAll());
+            var data = _isp.GetDataXMl().Where(x=>x.Mere == "RANDRIA").ToList();
+            return View(_isp.FindAll());
         }
 
         public IEnumerable<Parents> AllParents()

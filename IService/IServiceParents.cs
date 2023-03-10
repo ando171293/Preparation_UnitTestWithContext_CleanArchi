@@ -11,5 +11,8 @@ namespace Preparation.IService
         void Create(Parents entity);
         void Update(Parents entity);
         void Delete(Parents entity);
+        void MockParents();
+        void ExportParentsToXml();
+        List<Parents> GetDataXMl();
     }
 }

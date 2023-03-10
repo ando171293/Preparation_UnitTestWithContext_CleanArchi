@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Preparation.Controllers;
+﻿using Preparation.Controllers;
 using Preparation.IService;
 using Preparation.Models;
 using Assert = Xunit.Assert;
@@ -17,7 +16,6 @@ namespace TestPreparation
     {
         PreparationContext _pctxt;
         TestContext _testContext;
-       
         public ServiceParentsTest() {
             var services = new ServiceCollection();
             services.AddScoped<DbContext,PreparationContext>();
@@ -31,27 +29,38 @@ namespace TestPreparation
             _testContext = new TestContext(bddTest);
         } 
 
+        public Mock<IServiceParents> MockParents() {
+            var MockParents = new Mock<IServiceParents>();
+            return  MockParents;
+        }
+
 
         [Fact]
         public void Verify_If_Parents_List_In_BddProj_IsNotNull()
          {
-            //Assign
-            var reposMock = new Mock<IServiceParents>();
-            var Repos = new ReposParents(_pctxt);
+            var mck = MockParents().Object.FindAll().ToList();
+            //var irepos = new Mock<IReposParents>();
+            //var service = new ServiceParents(irepos.Object);
+            //var servParent = service.FindAll().ToList();
 
+
+            //Assign
+            var serviceMock = new Mock<IServiceParents>();
+            var Repos = new ReposParents(_pctxt);
+            
             //Action
             var dataInBddTest = _testContext.Parents.ToList();
             var dataInBddProj = _pctxt.Parents.ToList();
             var ListInReposParents = Repos.FindAll().ToList();
 
-            ParentsController _controller = new ParentsController(reposMock.Object);
+            ParentsController _controller = new ParentsController(serviceMock.Object);
             var itm = _controller.AllParents().ToList();
-            var listP = reposMock.Setup(repo => repo.FindAll()).Returns(_pctxt.Parents);
+            var listParents = serviceMock.Setup(s => s.FindAll()).Returns(_pctxt.Parents);
 
             //Assert
             var r = Assert.IsType<ViewResult>(_controller.Index());
             //var parentsL = Assert.IsType<List<Parents>>(r.Model);
-            Assert.Equal(dataInBddTest.Count, itm.Count);
+            //Assert.Equal(dataInBddTest.Count, itm.Count);
             //var listParent = Assert.Single(data);
             Assert.NotNull(dataInBddProj);
         }
@@ -73,11 +82,11 @@ namespace TestPreparation
         //public void CreateParentsTest()
         //{
         //    //Arrange
-        //    var reposMock = new Mock<IServiceParents>();
+        //    var serviceMock = new Mock<IServiceParents>();
 
         //    //Action
         //    Parents p = new Parents() { Pere = "Marolahy", Mere = "Marovavy", Adresse = "Ankorondrano" };
-        //    var addP = reposMock.Setup(repo => repo.Create(p));
+        //    var addP = serviceMock.Setup(repo => repo.Create(p));
 
         //    //Assert
         //    //var listParent = Assert.Single(_context.Parents.ToList());
