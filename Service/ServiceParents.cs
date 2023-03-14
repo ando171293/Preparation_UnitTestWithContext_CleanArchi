@@ -15,11 +15,11 @@ namespace Preparation.Service
 {
     public class ServiceParents : IServiceParents
     {
-        private readonly IReposParents _isp;
-        public ServiceParents(IReposParents isp) { _isp = isp; }
+        private readonly IReposParents _irp;
+        public ServiceParents(IReposParents irp) { _irp = irp; }
         public void Create(Parents entity)
         {
-            _isp.Create(entity);
+            _irp.Create(entity);
         }
 
         public List<Parents> GetDataXMl()
@@ -36,8 +36,6 @@ namespace Preparation.Service
 
             return Lst;
         }
-
-        
 
         public void ExportParentsToXml()
         {
@@ -62,7 +60,6 @@ namespace Preparation.Service
                     writer.WriteStartElement("Mere"); writer.WriteString(line.Mere);  writer.WriteEndElement();
                     writer.WriteStartElement("Adresse"); writer.WriteString(line.Adresse);  writer.WriteEndElement();
                     writer.WriteEndElement();
-
                 }
                 writer.WriteEndElement(); // close the root element
                 writer.WriteEndDocument();
@@ -70,8 +67,6 @@ namespace Preparation.Service
 
         }
             
-
-
         public void MockParents()
         {
             for (int i = 0; i < 100; i++) { 
@@ -82,12 +77,12 @@ namespace Preparation.Service
 
         public void Delete(Parents entity)
         {
-            _isp.Delete(entity);
+            _irp.Delete(entity);
         }
 
         public IQueryable<Parents> FindAll()
         {
-           return _isp.FindAll();
+           return _irp.FindAll();
         }
 
         public IQueryable<Parents> FindByCondition(Expression<Func<Parents, bool>> expression)
@@ -95,13 +90,10 @@ namespace Preparation.Service
             throw new NotImplementedException();
         }
 
-       
-
         public void Update(Parents entity)
         {
-            _isp.Update(entity);
+            _irp.Update(entity);
         }
 
-        
     }
 }

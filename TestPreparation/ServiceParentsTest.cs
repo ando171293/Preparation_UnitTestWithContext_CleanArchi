@@ -9,6 +9,7 @@ using Preparation.Repos;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TestPreparation
 {
@@ -38,12 +39,12 @@ namespace TestPreparation
         [Fact]
         public void Verify_If_Parents_List_In_BddProj_IsNotNull()
          {
-            var mck = MockParents().Object.FindAll().ToList();
-            //var irepos = new Mock<IReposParents>();
+            //var mck = MockParents().Object.FindAll().ToList();
+            var irepos = new Mock<IReposParents>();
             //var service = new ServiceParents(irepos.Object);
             //var servParent = service.FindAll().ToList();
 
-
+            
             //Assign
             var serviceMock = new Mock<IServiceParents>();
             var Repos = new ReposParents(_pctxt);
@@ -53,7 +54,9 @@ namespace TestPreparation
             var dataInBddProj = _pctxt.Parents.ToList();
             var ListInReposParents = Repos.FindAll().ToList();
 
-            ParentsController _controller = new ParentsController(serviceMock.Object);
+            IServiceParents isp = serviceMock.Object;
+
+            ParentsController _controller = new ParentsController(isp);
             var itm = _controller.AllParents().ToList();
             var listParents = serviceMock.Setup(s => s.FindAll()).Returns(_pctxt.Parents);
 

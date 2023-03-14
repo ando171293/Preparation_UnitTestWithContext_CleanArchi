@@ -19,10 +19,11 @@ namespace Preparation.Controllers
         {
             _isp = isp;
         }
+
         // GET: Parents
         public IActionResult Index()
         {
-            var data = _isp.GetDataXMl().Where(x=>x.Mere == "RANDRIA").ToList();
+            //var data = _isp.GetDataXMl().Where(x=>x.Mere == "RANDRIA").ToList();
             return View(_isp.FindAll());
         }
 

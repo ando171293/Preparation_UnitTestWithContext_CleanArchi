@@ -424,3 +424,4 @@ C:\Users\HAIRUN\source\repos\TestPreparation\bin\Debug\net6.0\System.Web.WebPage
 C:\Users\HAIRUN\source\repos\TestPreparation\bin\Debug\net6.0\System.Web.WebPages.Razor.dll
 C:\Users\HAIRUN\source\repos\TestPreparation\bin\Debug\net6.0\System.Web.WebPages.dll
 C:\Users\HAIRUN\source\repos\TestPreparation\bin\Debug\net6.0\Microsoft.Web.Infrastructure.dll
+C:\Users\HAIRUN\source\repos\TestPreparation\bin\Debug\net6.0\libman.json
