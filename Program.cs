@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Preparation.IRepos;
 using Preparation.IService;
@@ -12,11 +13,11 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddSignalR();
 
-
 builder.Services.AddScoped<IReposParents, ReposParents>();
 builder.Services.AddScoped<IServiceParents, ServiceParents>();
 builder.Services.AddScoped<IReposPersonnes, ReposPersonnes>();
 builder.Services.AddScoped<IServicePersonnes, ServicePersonnes>();
+
 
 
 var connectionString = builder.Configuration.GetConnectionString("ConnectionStrings");

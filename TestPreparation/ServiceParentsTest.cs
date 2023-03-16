@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace TestPreparation
 {
@@ -28,75 +29,102 @@ namespace TestPreparation
 
             var bddTest = new DbContextOptionsBuilder<TestContext>().UseSqlServer("Server=localhost;Database=Preparation;Trusted_Connection=True;TrustServerCertificate = true;").Options;
             _testContext = new TestContext(bddTest);
-        } 
-
-        public Mock<IServiceParents> MockParents() {
-            var MockParents = new Mock<IServiceParents>();
-            return  MockParents;
         }
 
+        [Fact]
+        public void Verify_If_Index_Return_Views()
+        {
+            // Arrange
+            var isp = GetServiceParents_FindAll().Object;
+            ParentsController controller = new ParentsController(isp);
+            // Act
+            ViewResult result = controller.Index() as ViewResult;
+            // Assert
+            Assert.NotNull(result);
+        }
 
         [Fact]
-        public void Verify_If_Parents_List_In_BddProj_IsNotNull()
-         {
-            //var mck = MockParents().Object.FindAll().ToList();
-            var irepos = new Mock<IReposParents>();
-            //var service = new ServiceParents(irepos.Object);
-            //var servParent = service.FindAll().ToList();
+        public void GetDataXMl()
+        {
+            var iserviceMock = new Mock<IServiceParents>();
+            var irp = new Mock<IReposParents>();
+            var sp = new ServiceParents(irp.Object);
 
+            var listXml = iserviceMock.Object.GetDataXMl();
             
+            Assert.NotNull(listXml);
+        }
+
+        public Mock<IServiceParents> GetServiceParents_FindAll()
+        {
+            var serviceMock = new Mock<IServiceParents>();
+            var irp = new Mock<IReposParents>();
+            var sp = new ServiceParents(irp.Object);
+
+            List<Parents> parents = new List<Parents>() {   new Parents { Pere="1",Mere="1",Adresse="a" },
+                                                            new Parents { Pere = "1", Mere = "1", Adresse = "a" },
+                                                            new Parents { Pere="1",Mere="1",Adresse="a" },
+                                                            new Parents { Pere="1",Mere="1",Adresse="a" },
+                                                            new Parents { Pere="1",Mere="1",Adresse="a" },
+                                                            new Parents { Pere="1",Mere="1",Adresse="a" },
+                                                            new Parents { Pere="1",Mere="1",Adresse="a" },
+                                                            new Parents { Pere="1",Mere="1",Adresse="a" },
+                                                            new Parents { Pere="1",Mere="1",Adresse="a" },
+                                                            new Parents { Pere="1",Mere="1",Adresse="a" },
+                                                            new Parents { Pere="1",Mere="1",Adresse="a" }};
+            
+            var queryable = parents.AsQueryable();
+            serviceMock.Setup(s => s.FindAll()).Returns(queryable);
+            return serviceMock;
+        }
+
+        [Fact]
+        public void Verify_If_ParentsList_IsNotNull()
+         {
             //Assign
             var serviceMock = new Mock<IServiceParents>();
             var Repos = new ReposParents(_pctxt);
+
+            var irp = new Mock<IReposParents>();
+            var sp = new ServiceParents(irp.Object);
             
             //Action
             var dataInBddTest = _testContext.Parents.ToList();
             var dataInBddProj = _pctxt.Parents.ToList();
             var ListInReposParents = Repos.FindAll().ToList();
 
-            IServiceParents isp = serviceMock.Object;
+            var isp = GetServiceParents_FindAll().Object;
 
             ParentsController _controller = new ParentsController(isp);
             var itm = _controller.AllParents().ToList();
-            var listParents = serviceMock.Setup(s => s.FindAll()).Returns(_pctxt.Parents);
+
+            var listParents = serviceMock.Setup(s => s.FindAll()).Returns(sp.FindAll());
 
             //Assert
-            var r = Assert.IsType<ViewResult>(_controller.Index());
-            //var parentsL = Assert.IsType<List<Parents>>(r.Model);
-            //Assert.Equal(dataInBddTest.Count, itm.Count);
-            //var listParent = Assert.Single(data);
-            Assert.NotNull(dataInBddProj);
+            Assert.NotNull(isp);
         }
 
+        [Fact]
+        public void CreateParentsTest()
+        {
+            //Arrange
+            var IreposMock = new Mock<IReposParents>();
+            var Repos = new ReposParents(_pctxt);
+            var service = new ServiceParents(IreposMock.Object);
 
-        //[Fact]
-        //public void Get_ReturnsAllEntities()
-        //{
-        //    ParentsController _controller = new ParentsController(_isp);
-        //    var result = _controller.Index();
-        //    var okResult = Assert.IsType<OkObjectResult>(result.Result);
-        //    var entities = Assert.IsAssignableFrom<IEnumerable<Parents>>(okResult.Value);
-        //    Assert.Equal(3, entities.Count());
-        //}
+            //Action
+            Parents p = new Parents() { Pere = "dada", Mere = "mama", Adresse = "Ankorondrano" };
+            var addP = IreposMock.Setup(repo => repo.Create(p));
+            //Repos.Create(p);//mandeha
+            service.Create(p);
+            var res = _pctxt.Parents.ToList().Where(x => x == p).ToList();
 
-
-
-        //[Fact]
-        //public void CreateParentsTest()
-        //{
-        //    //Arrange
-        //    var serviceMock = new Mock<IServiceParents>();
-
-        //    //Action
-        //    Parents p = new Parents() { Pere = "Marolahy", Mere = "Marovavy", Adresse = "Ankorondrano" };
-        //    var addP = serviceMock.Setup(repo => repo.Create(p));
-
-        //    //Assert
-        //    //var listParent = Assert.Single(_context.Parents.ToList());
-        //    //Assert.NotNull(listParent);
-        //    //Assert.Equal(p, listParent);
-        //    //Assert.Contains(p, _context.Parents);
-        //}
+            //Assert
+            //var listParent = Assert.Single(_context.Parents.ToList());
+            Assert.NotNull(res);
+            //Assert.Equal(p, listParent);
+            //Assert.Contains(p, _context.Parents);
+        }
 
 
     }

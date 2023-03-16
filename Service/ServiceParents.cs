@@ -1,4 +1,5 @@
-﻿using Castle.Core.Resource;
+﻿using AutoMapper;
+using Castle.Core.Resource;
 using Preparation.IRepos;
 using Preparation.IService;
 using Preparation.Models;
@@ -82,7 +83,7 @@ namespace Preparation.Service
 
         public IQueryable<Parents> FindAll()
         {
-           return _irp.FindAll();
+            return _irp.FindAll();
         }
 
         public IQueryable<Parents> FindByCondition(Expression<Func<Parents, bool>> expression)
