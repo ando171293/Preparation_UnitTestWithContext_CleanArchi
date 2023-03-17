@@ -11,33 +11,12 @@ namespace TestPreparation
 {
     public class TestContext : DbContext//, IDisposable
     {
-        public TestContext(DbContextOptions<TestContext> options) : base(options)
-        {
-            
-        }
         public DbSet<Parents> Parents { get; set; }
         public DbSet<Personnes> Personnes { get; set; }
 
-        //public void Dispose()
-        //{
-        //    this.Database.RollbackTransaction();
-        //}
-
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring (DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                SqlConnectionStringBuilder connectionStringBuilder = new SqlConnectionStringBuilder
-                {
-                    DataSource = "localhost",
-                    InitialCatalog = "Preparation",
-                    Encrypt = true,
-                    TrustServerCertificate = true
-                };
-
-                optionsBuilder.UseSqlServer(connectionStringBuilder.ToString());
-            }
+            optionsBuilder.UseInMemoryDatabase(databaseName: "PreparationTest");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
