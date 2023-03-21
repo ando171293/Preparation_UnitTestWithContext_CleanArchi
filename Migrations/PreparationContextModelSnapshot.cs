@@ -10,7 +10,7 @@ using Preparation.Models;
 
 namespace Preparation.Migrations
 {
-    [DbContext(typeof(PreparationContext))]
+    [DbContext(typeof(Context))]
     partial class PreparationContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

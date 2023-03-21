@@ -5,6 +5,6 @@ namespace Preparation.Repos
 {
     public class ReposPersonnes : GenericRepos<Personnes>, IReposPersonnes
     {
-        public ReposPersonnes(PreparationContext pc) : base(pc) { }
+        public ReposPersonnes(Context pc) : base(pc) { }
     }
 }

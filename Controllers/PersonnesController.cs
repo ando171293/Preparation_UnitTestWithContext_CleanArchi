@@ -11,9 +11,9 @@ namespace Preparation.Controllers
 {
     public class PersonnesController : Controller
     {
-        private readonly PreparationContext _context;
+        private readonly Context _context;
 
-        public PersonnesController(PreparationContext context)
+        public PersonnesController(Context context)
         {
             _context = context;
         }

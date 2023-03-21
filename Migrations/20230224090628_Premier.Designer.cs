@@ -11,7 +11,7 @@ using Preparation.Models;
 
 namespace Preparation.Migrations
 {
-    [DbContext(typeof(PreparationContext))]
+    [DbContext(typeof(Context))]
     [Migration("20230224090628_Premier")]
     partial class Premier
     {

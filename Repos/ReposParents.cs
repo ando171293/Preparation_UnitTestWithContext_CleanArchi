@@ -6,8 +6,8 @@ namespace Preparation.Repos
 {
     public class ReposParents: IReposParents
     {
-        public readonly PreparationContext _pc;
-        public ReposParents(PreparationContext pc) { _pc = pc; }
+        public readonly Context _pc;
+        public ReposParents(Context pc) { _pc = pc; }
         
         public void Create(Parents entity)
         {

@@ -21,7 +21,7 @@ builder.Services.AddScoped<IServicePersonnes, ServicePersonnes>();
 
 
 var connectionString = builder.Configuration.GetConnectionString("ConnectionStrings");
-builder.Services.AddDbContext<PreparationContext>(x => x.UseSqlServer(connectionString));
+builder.Services.AddDbContext<Context>(x => x.UseSqlServer(connectionString));
 
 
 

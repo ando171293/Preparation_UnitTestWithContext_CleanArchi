@@ -7,8 +7,8 @@ namespace Preparation.Repos
 {
     public abstract class GenericRepos<T> : IGenericRepos<T> where T : class
     {
-        PreparationContext _pc;
-        public GenericRepos(PreparationContext pc)
+        Context _pc;
+        public GenericRepos(Context pc)
         {
             _pc= pc;
         }

@@ -9,8 +9,12 @@ using System.Threading.Tasks;
 
 namespace TestPreparation
 {
-    public class TestContext : DbContext//, IDisposable
+    public class TestContext : Context
     {
+        public TestContext(DbContextOptions<Context> options) : base(options)
+        {
+        }
+
         public DbSet<Parents> Parents { get; set; }
         public DbSet<Personnes> Personnes { get; set; }
 
